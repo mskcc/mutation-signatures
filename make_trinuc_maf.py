@@ -22,9 +22,10 @@ while firstline.startswith("#"):
 lines = [map(strip, firstline.split('\t'))]
 type_col = lines[0].index("Variant_Type")
 for line in fromf:
-	type = line.split('\t')[type_col]
+	split_line = map(strip, line.split('\t'))
+	type = split_line[type_col]
 	if type == "SNP":
-		lines.append(map(strip, line.split('\t')))
+		lines.append(split_line)
 
 tmpf.write(join(map(lambda x: join(x, '\t'), lines), '\n'))
 tmpf.flush()
