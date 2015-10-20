@@ -1,7 +1,13 @@
 # mutation-signatures
 Create mutation signatures from MAF's, and decompose them into Stratton signatures
 
-Usage: Navigate to the project directory.
+### Required packages ###
+
+You will need the python packages `numpy` and `scipy` for anything related to decomposition, and if you want to plot (using `plot.py`) you will also need `matplotlib`.
+
+### Usage ###
+
+Navigate to the project directory.
 
 The SNPs in your MAF need to be annotated with trinucleotide contexts in a column called ```Ref_Tri```. If this is not already the case, you can use the following command:  
 ```
