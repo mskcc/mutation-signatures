@@ -9,7 +9,7 @@ You will need the python packages `numpy` and `scipy` for anything related to de
 
 Navigate to the project directory.
 
-The SNPs in your MAF need to be annotated with trinucleotide contexts in a column called ```Ref_Tri```. If this is not already the case, you can use the following command:  
+The SNPs in your MAF need to be sorted ([1-22, X, Y, M]) and annotated with trinucleotide contexts in a column called ```Ref_Tri```. If this is not already the case, you can use the following command:
 ```
 python make_trinuc_maf.py <source-maf-path> <target-maf-path>
 ```
