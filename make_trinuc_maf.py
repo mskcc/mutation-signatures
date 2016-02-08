@@ -20,12 +20,16 @@ while firstline.startswith("#"):
 	firstline = fromf.readline()
 
 lines = [map(strip, firstline.split('\t'))]
+indels = []
 type_col = lines[0].index("Variant_Type")
+	
 for line in fromf:
 	split_line = map(strip, line.split('\t'))
 	type = split_line[type_col]
 	if type == "SNP":
 		lines.append(split_line)
+	if type != "SNP": 
+		indels.append(split_line)
 
 tmpf.write(join(map(lambda x: join(x, '\t'), lines), '\n'))
 tmpf.flush()
@@ -34,11 +38,11 @@ tmpf.flush()
 print "Making bed file"
 grep_ps = subprocess.Popen(["grep", "-Ev", "^#|^Hugo", "___tmp.maf"], stdout=subprocess.PIPE)
 cut_ps = subprocess.Popen("cut -f5-7".split(" "), stdin=grep_ps.stdout, stdout=subprocess.PIPE)
-awk_ps = subprocess.Popen(["awk", "{OFS=\"\\t\"; print $1,$2-2,$3+1}"], stdin=cut_ps.stdout, stdout=subprocess.PIPE)
+# awk_ps = subprocess.Popen(["awk", "{OFS=\"\\t\"; print $1,$2-2,$3+1}"], stdin=cut_ps.stdout, stdout=subprocess.PIPE)
+awk_ps = subprocess.Popen(["awk", "BEGIN{OFS=\"\\t\"} {if ($1 == \"M\") {$1 = \"MT\"} ; print $1,$2-2,$3+1}"], stdin=cut_ps.stdout, stdout=subprocess.PIPE)
 bedf = open("___tmp.bed","w")
 bedf.write(awk_ps.communicate()[0])
 bedf.close()
-
 
 # Fetch regions
 print "Getting regions"
@@ -69,8 +73,17 @@ for line in trinucf:
 		pass
 	lines[i].append(trinuc)
 
+# Add back indels
+for line in indels:
+	line.append('')
+
+lines.extend(indels)
+
 print "Writing to %s"%to_maf
 tof.write(join(map(lambda x: join(x, '\t'), lines), '\n'))
+tof.close()
 
 print "Cleaning up"
-subprocess.call("rm -f ___tmp*".split(" "))
+subprocess.call("rm -f ___tmp.maf".split(" "))
+subprocess.call("rm -f ___tmp.bed".split(" "))
+subprocess.call("rm -f ___tmp.tsv".split(" "))

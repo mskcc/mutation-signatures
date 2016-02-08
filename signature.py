@@ -141,8 +141,8 @@ def load(path):
 
 def decompose(target, sigs):
     num_muts = np.sum(target)
-    if num_muts < 1:
-        print "Warning: sample doesn't have any mutations; cancelling decomposition"
+    if num_muts < 10:
+        print "Warning: sample has less than 10 mutations; cancelling decomposition"
         return None
 
     num_sigs = sigs.shape[1]
