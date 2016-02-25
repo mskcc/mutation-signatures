@@ -36,6 +36,16 @@ Then calculate the confidence intervals and a quasi-pvalue for each signature:
 
     ./sigsig_conf_int.R input.resamp.sig.txt
 
+Example output:
+
+Tumor_Sample_Barcode | Number of Mutations | lower_val | median_val | upper_val | quasi_pvalue
+--- | --- | --- | --- | --- | ---
+TCGA-05-4249-01-SM-1OIMZ | 4 | 0.27567 | 0.37571 | 0.46896 | 0
+TCGA-05-4249-01-SM-1OIMZ | 7 | 0.021587 | 0.04542 | 0.070778 | 0.030888
+TCGA-05-4249-01-SM-1OIMZ | 13 | 0.045972 | 0.062428 | 0.082368 | 0
+TCGA-05-4249-01-SM-1OIMZ | 24 | 0.095786 | 0.18011 | 0.25993 | 0.020592
+TCGA-05-4382-01-SM-1M6DD | 2 | 0.037936 | 0.048033 | 0.057641 | 0
+
 
 ### References ###
 Alexandrov, L. B., Nik-Zainal, S., Wedge, D. C., Campbell, P. J., & Stratton, M. R. (2013). Deciphering Signatures of Mutational Processes Operative in Human Cancer. Cell Reports, 3(1), 246–259. doi:10.1016/j.celrep.2012.12.008
