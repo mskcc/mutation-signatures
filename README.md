@@ -46,6 +46,7 @@ TCGA-05-4249-01-SM-1OIMZ | 3 | 1.1311e-11 | 3.3926e-10 | 5.4924e-07 | 0.84942
 TCGA-05-4249-01-SM-1OIMZ | 4 | 0.27567 | 0.37571 | 0.46896 | 0
 TCGA-05-4249-01-SM-1OIMZ | 5 | 9.3352e-12 | 3.7251e-10 | 7.1719e-09 | 0.95238
 
+To do: include original maf in the resample and add `measured_val` column
 
 ### References ###
 Alexandrov, L. B., Nik-Zainal, S., Wedge, D. C., Campbell, P. J., & Stratton, M. R. (2013). Deciphering Signatures of Mutational Processes Operative in Human Cancer. Cell Reports, 3(1), 246–259. doi:10.1016/j.celrep.2012.12.008
