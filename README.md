@@ -22,5 +22,20 @@ python main.py Stratton_signatures.txt <maf-file-path> <decomposed-output-file-p
 In order to use this, you need the following columns in your MAF:  
 ```"Tumor_Sample_Barcode", "Reference_Allele", "Variant_Type", "Tumor_Seq_Allele2", "Ref_Tri"```
 
+### Confidence Intervals ###
+
+In order to calculate the confidence intervals on mutational signatures, resample a maf file (with replacement) 1000 times thusly:
+
+    ./sigsig.R input.maf 1000 input.resamp.maf
+
+Run decomposition as usual:
+
+    python main.py Stratton_signatures30.txt input.resamp.maf input.resamp.sig.txt
+    
+Then calculate the confidence intervals and a quasi-pvalue for each signature:
+
+    ./sigsig_conf_int.R input.resamp.sig.txt
+
+
 ### References ###
 Alexandrov, L. B., Nik-Zainal, S., Wedge, D. C., Campbell, P. J., & Stratton, M. R. (2013). Deciphering Signatures of Mutational Processes Operative in Human Cancer. Cell Reports, 3(1), 246–259. doi:10.1016/j.celrep.2012.12.008
