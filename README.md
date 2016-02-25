@@ -38,7 +38,7 @@ Then calculate the confidence intervals and a quasi-pvalue for each signature:
 
 Example output:
 
-Tumor_Sample_Barcode | Number of Mutations | lower_val | median_val | upper_val | quasi_pvalue
+Tumor_Sample_Barcode | Signature | lower_val | median_val | upper_val | quasi_pvalue
 --- | --- | --- | --- | --- | ---
 TCGA-05-4249-01-SM-1OIMZ | 4 | 0.27567 | 0.37571 | 0.46896 | 0
 TCGA-05-4249-01-SM-1OIMZ | 7 | 0.021587 | 0.04542 | 0.070778 | 0.030888
