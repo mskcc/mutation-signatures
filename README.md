@@ -21,3 +21,6 @@ python main.py Stratton_signatures.txt <maf-file-path> <decomposed-output-file-p
 
 In order to use this, you need the following columns in your MAF:  
 ```"Tumor_Sample_Barcode", "Reference_Allele", "Variant_Type", "Tumor_Seq_Allele2", "Ref_Tri"```
+
+### References ###
+Alexandrov, L. B., Nik-Zainal, S., Wedge, D. C., Campbell, P. J., & Stratton, M. R. (2013). Deciphering Signatures of Mutational Processes Operative in Human Cancer. Cell Reports, 3(1), 246–259. doi:10.1016/j.celrep.2012.12.008
