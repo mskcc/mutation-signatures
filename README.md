@@ -24,7 +24,7 @@ In order to use this, you need the following columns in your MAF:
 
 ### Confidence Intervals ###
 
-In order to calculate the confidence intervals on mutational signatures, resample a maf file (with replacement) 1000 times thusly:
+In order to calculate the (1 s.d.) confidence intervals on mutational signatures, resample a maf file (with replacement) 1000 times thusly:
 
     ./sigsig.R input.maf 1000 input.resamp.maf
 
