@@ -34,7 +34,7 @@ Run decomposition as usual:
     
 Then calculate the (1 s.d.) confidence intervals and a quasi-pvalue for each signature:
 
-    ./sigsig_conf_int.R input.resamp.sig.txt
+    ./sigsig_conf_int.R input.resamp.sig.txt input.resamp.sig.conf_int.txt
 
 Example output:
 
