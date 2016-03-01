@@ -24,7 +24,7 @@ conf_int_m[, Fraction := as.numeric(Fraction)]
 conf_int_q <- conf_int_m[, {
   q <- quantile(Fraction, probs =  c(pnorm(-1), 0.5, pnorm(1)))
   names(q) <- c("lower_val", "median_val", "upper_val")
-  q <- c(q, pval = mean(Fraction < 1e-5))
+  q <- c(q, quasi_pval = mean(Fraction < 1e-5))
   lapply(q, function(x) as.numeric(formatC(x, digits = 3)))
 }, 
 by = list(Tumor_Sample_Barcode, Signature)]
