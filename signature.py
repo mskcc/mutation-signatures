@@ -164,7 +164,7 @@ def decompose(target, sigs):
         coeff = x*x
         approx = sigs.dot(coeff)
         try:
-            return np.log(-target.dot(np.log(np.maximum(approx, 0.0001)))) + 100*(np.sum(coeff) - 1)**2 # take that extra log to prioritize the correct sum
+            return -target.dot(np.log(np.maximum(approx, 0.0001))) 
         except:
             pdb.set_trace()
 
