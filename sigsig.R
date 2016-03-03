@@ -55,7 +55,7 @@ if(!interactive()){
   n_draws <- args[1]; args <- args[-1]
   output_maf_filename <- args[1]; args <- args[-1]
   
-  maf <- fread(maf_filename)
+  maf <- suppressWarnings(fread(maf_filename))
   mafl <- generate_bootstrap_maf(maf, n_draws = n_draws)
   write.maf(mafl, output_maf_filename)
 }
