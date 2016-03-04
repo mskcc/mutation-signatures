@@ -156,12 +156,12 @@ def decompose(target, sigs):
             self.stepsize = stepsize
         def __call__(self, x):
             x += np.random.uniform(-self.stepsize, self.stepsize, np.shape(x))
-            x = x/np.linalg.norm(x)
             return x
 
     np.seterr(all="raise")
     def error(x):
         coeff = x*x
+        coeff = coeff/np.sum(coeff)
         approx = sigs.dot(coeff)
         try:
             return -target.dot(np.log(np.maximum(approx, 0.0001))) 
@@ -169,7 +169,9 @@ def decompose(target, sigs):
             pdb.set_trace()
 
     result = basinhopping(error, seed, niter=3, disp=False, T=5, take_step=Step()).x
-    return result*result
+    result = result*result
+    result = result/np.sum(result)
+    return result
 
 def decompose_to_file(targets, sigs, sigs_names, to_file):
     to_file = open(to_file, 'w')
