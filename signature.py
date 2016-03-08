@@ -2,7 +2,6 @@ import numpy as np
 import string
 from scipy.optimize import basinhopping
 import pdb
-import sys
 
 def make(maf_path, out_path=None, substitution_order=None):
     id_col = "Tumor_Sample_Barcode"
@@ -13,10 +12,7 @@ def make(maf_path, out_path=None, substitution_order=None):
     required_columns = [id_col, ref_allele_col, variant_type_col, \
                         tum_allele_col, ref_tri_col]
 
-    if maf_path == "-":
-        maf_f = sys.stdin
-    else:
-        maf_f = open(maf_path, 'r')
+    maf_f = open(maf_path, 'r')
     column_labels = maf_f.readline().strip().split('\t')
     column_index = {}
     for i,x in enumerate(column_labels):
