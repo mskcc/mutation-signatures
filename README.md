@@ -28,6 +28,10 @@ In order to calculate the confidence intervals on mutational signatures, resampl
 
     ./sigsig.R input.maf 1000 input.resamp.maf
 
+Alternatively you can opt to split the output maf file by Tumor_Sample_Barcode with a 4th argument `split`:
+
+    ./sigsig.R input.maf 1000 input_resamp_maf/ split
+
 Run decomposition as usual:
 
     python main.py Stratton_signatures30.txt input.resamp.maf input.resamp.sig.txt
