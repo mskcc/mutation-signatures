@@ -54,8 +54,20 @@ if(!interactive()){
   maf_filename <- args[1]; args <- args[-1]
   n_draws <- args[1]; args <- args[-1]
   output_maf_filename <- args[1]; args <- args[-1]
+  split_files <- FALSE
+  if(length(args)){
+    if(args[1] == "split"){
+      split_files <- TRUE
+    }
+  }
+
 
   maf <- suppressWarnings(fread(maf_filename))
   mafl <- generate_bootstrap_maf(maf, n_draws = n_draws)
-  write.maf(mafl, output_maf_filename)
+  if(split_files){
+    dir.create(output_maf_filename)
+    mafl[, write.maf(.SD, paste0(output_maf_filename, "/", sample, ".txt")), sample]
+  } else {
+    write.maf(mafl, output_maf_filename)
+  }
 }
