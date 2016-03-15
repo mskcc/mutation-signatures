@@ -2,6 +2,9 @@ import numpy as np
 import string
 from scipy.optimize import basinhopping
 import pdb
+import sys
+import multiprocessing
+
 
 def make(maf_path, out_path=None, substitution_order=None):
     id_col = "Tumor_Sample_Barcode"
@@ -141,8 +144,8 @@ def load(path):
 
 def decompose(target, sigs):
     num_muts = np.sum(target)
-    if num_muts < 10:
-        print "Warning: sample has less than 10 mutations; cancelling decomposition"
+    if num_muts < 5:
+        print "Warning: sample has less than 5 mutations; cancelling decomposition"
         return None
 
     num_sigs = sigs.shape[1]
@@ -181,8 +184,12 @@ def decompose_to_file(targets, sigs, sigs_names, to_file):
     num_targets_decomposed = 0
     for target_name in targets:
         if num_targets_decomposed%50 == 0:
-            print "%d/%d decomposed"%(num_targets_decomposed, num_targets)
-        decomposition = decompose(targets[target_name], sigs)
+            print "%d/%d decomposed"%(num_targets_decomposed, num_targets) 
+        decomposition = None
+        try:
+            decomposition = decompose(targets[target_name], sigs)
+        except:
+            print("DECOMPOSITION EXCEPTION FOR "+target_name)
         num_targets_decomposed += 1
         if decomposition is None:
             print "Sample %s not decomposed"%target_name
@@ -194,4 +201,34 @@ def decompose_to_file(targets, sigs, sigs_names, to_file):
         to_file.write('\t')
         to_file.write(string.join(map(str, decomposition), '\t'))
         to_file.write('\n')
+    to_file.close()
+        
+def parse_decompose(arg_list):
+    target_name = arg_list[0]
+    targets = arg_list[1]
+    sigs = arg_list[2]
+    """Accessory function to retain sample name"""
+    return [target_name, decompose(targets[target_name], sigs)]
+
+def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
+    pool = multiprocessing.Pool(processes=20)
+    input_data = list()
+    for target_name in targets:
+        input_data.append([target_name, targets, sigs])
+    result = pool.map_async(parse_decompose, input_data)
+    pool.close()
+    pool.join()
+    results = result.get()
+   
+    ### Header
+    to_file = open(out_file, 'w')
+    to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names + ['\n'], '\t'))
+    
+    ### Loop over results
+    num_targets = len(targets.keys())
+    for i in range(len(results)):
+        if results[i][1] is not None:
+            out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(map(str, results[i][1]), '\t'), '\n']
+            to_file.write(string.join(out, '\t'))
+    
     to_file.close()
