@@ -47,7 +47,7 @@ Decompsed signatures without `:1`, `:2`, etc. at the end will be treated as 'Obs
 Example output:
 
 Tumor_Sample_Barcode | Signature | observed_val | lower_val | median_val | upper_val | quasi_pvalue
---- | --- | --- | --- | --- | ---
+--- | --- | --- | --- | --- | --- | ---
 TCGA-05-4249-01-SM-1OIMZ | 1 | 0.10231 | 0.013611 | 0.08426 | 0.13959 | 0.12098
 TCGA-05-4249-01-SM-1OIMZ | 2 | 2.9534e-08 | 1.0154e-11 | 2.7091e-07 | 0.018698 | 0.50322
 TCGA-05-4249-01-SM-1OIMZ | 3 | 1.9123e-10 | 1.1311e-11 | 3.3926e-10 | 5.4924e-07 | 0.84942
