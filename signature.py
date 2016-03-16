@@ -3,7 +3,7 @@ import string
 from scipy.optimize import basinhopping
 import pdb
 import sys
-from joblib import Parallel, delayed
+import multiprocessing
 
 
 def make(maf_path, out_path=None, substitution_order=None):
@@ -203,15 +203,23 @@ def decompose_to_file(targets, sigs, sigs_names, to_file):
         to_file.write('\n')
     to_file.close()
         
-def parse_decompose(target_name, targets, sigs):
+def parse_decompose(arg_list):
+    target_name = arg_list[0]
+    targets = arg_list[1]
+    sigs = arg_list[2]
     """Accessory function to retain sample name"""
     return [target_name, decompose(targets[target_name], sigs)]
 
 def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
-
-    ### Run parallelized decomposition
-    results = Parallel(n_jobs = threads, backend = 'threading')(delayed(parse_decompose)(target_name, targets, sigs) for target_name in targets)  
-    
+    pool = multiprocessing.Pool(processes=20)
+    input_data = list()
+    for target_name in targets:
+        input_data.append([target_name, targets, sigs])
+    result = pool.map_async(parse_decompose, input_data)
+    pool.close()
+    pool.join()
+    results = result.get()
+   
     ### Header
     to_file = open(out_file, 'w')
     to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names + ['\n'], '\t'))
@@ -224,3 +232,27 @@ def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
             to_file.write(string.join(out, '\t'))
     
     to_file.close()
+
+
+def decompose_to_file_parallel_2(targets, sigs, sigs_names, out_file, threads):
+    pool = multiprocessing.Pool(processes=threads)
+    input_data = list()
+    for target_name in targets:
+        input_data.append([target_name, targets, sigs])
+    result = pool.map_async(parse_decompose, input_data)
+    pool.close()
+    pool.join()
+    results = result.get()
+
+    ### Header
+    to_file = open(out_file, 'w')
+    to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names + ['\n'], '\t'))
+
+    ### Loop over results
+    num_targets = len(targets.keys())
+    for i in range(len(results)):
+        if results[i][1] is not None:
+            out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(map(str, results[i][1]), '\t'), '\n']
+            to_file.write(string.join(out, '\t'))
+
+    to_file.close()    

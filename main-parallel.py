@@ -33,7 +33,7 @@ if signatures == None:
     sys.exit(0)
 
 print "Decomposing signatures and writing to %s"%outfile
-signature.decompose_to_file_parallel(signatures['signatures'],
+signature.decompose_to_file_parallel_2(signatures['signatures'],
                             					stratton['signatures'],
                             					stratton['names'],
 												outfile,
