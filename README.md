@@ -42,7 +42,7 @@ Note that the original maf is included at the top of the resampled file. Resampl
 
     ./sigsig_conf_int.R input.resamp.sig.txt input.resamp.sig.conf_int.txt
 
-Decompsed signatures without `:1`, `:2`, etc. at the end will be treated as 'Observed signatures'.
+Decompsed signatures without `:1`, `:2`, etc. at the end will appear as `observed_val`.
 
 Example output:
 
