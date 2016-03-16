@@ -208,13 +208,17 @@ def parse_decompose(arg_list):
     targets = arg_list[1]
     sigs = arg_list[2]
     """Accessory function to retain sample name"""
-    return [target_name, decompose(targets[target_name], sigs)]
+    try:
+        return [target_name, decompose(targets, sigs)]
+    except:
+        return [None, None, None]
 
 def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
-    pool = multiprocessing.Pool(processes=20)
+    pool = multiprocessing.Pool(processes=threads)
+    manager = multiprocessing.Manager()
     input_data = list()
     for target_name in targets:
-        input_data.append([target_name, targets, sigs])
+        input_data.append([target_name, targets[target_name], sigs])
     result = pool.map_async(parse_decompose, input_data)
     pool.close()
     pool.join()

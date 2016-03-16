@@ -72,7 +72,7 @@ if(!interactive()){
   mafl <- rbind(original_maf,
                 mafl)
   if(split_files){
-    dir.create(output_maf_filename)
+    dir.create(output_maf_filename, showWarnings = FALSE)
     mafl[, sample := gsub(":.*$", "", Tumor_Sample_Barcode)]
     mafl[, write.maf(.SD, paste0(output_maf_filename, "/", sample, ".txt")), sample]
   } else {
