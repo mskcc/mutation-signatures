@@ -49,10 +49,10 @@ Example output:
 Tumor_Sample_Barcode | Signature | observed_val | lower_val | median_val | upper_val | quasi_pvalue
 --- | --- | --- | --- | --- | --- | ---
 TCGA-05-4249 | 1 | 0.10231 | 0.013611 | 0.08426 | 0.13959 | 0.12098
-TCGA-05-4249 | 2 | 2.9534e-08 | 1.0154e-11 | 2.7091e-07 | 0.018698 | 0.50322
-TCGA-05-4249 | 3 | 1.9123e-10 | 1.1311e-11 | 3.3926e-10 | 5.4924e-07 | 0.84942
+TCGA-05-4249 | 2 | 2.953e-08 | 1.015e-11 | 2.709e-07 | 0.018698 | 0.50322
+TCGA-05-4249 | 3 | 1.912e-10 | 1.131e-11 | 3.392e-10 | 5.492e-07 | 0.84942
 TCGA-05-4249 | 4 | 0.38532 | 0.27567 | 0.37571 | 0.46896 | 0
-TCGA-05-4249 | 5 | 3.4321e-9 | 9.3352e-12 | 3.7251e-10 | 7.1719e-09 | 0.95238
+TCGA-05-4249 | 5 | 3.432e-9 | 9.335e-12 | 3.725e-10 | 7.171e-09 | 0.95238
 
 ### References ###
 Alexandrov, L. B., Nik-Zainal, S., Wedge, D. C., Campbell, P. J., & Stratton, M. R. (2013). Deciphering Signatures of Mutational Processes Operative in Human Cancer. Cell Reports, 3(1), 246–259. doi:10.1016/j.celrep.2012.12.008
