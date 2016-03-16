@@ -64,6 +64,13 @@ if(!interactive()){
 
   maf <- suppressWarnings(fread(maf_filename))
   mafl <- generate_bootstrap_maf(maf, n_draws = n_draws)
+  original_maf <- maf[, list(Tumor_Sample_Barcode,
+                             Reference_Allele,
+                             Tumor_Seq_Allele2,
+                             Ref_Tri,
+                             Variant_Type)]
+  mafl <- rbind(original_maf,
+                mafl)
   if(split_files){
     dir.create(output_maf_filename)
     mafl[, sample := gsub(":.*$", "", Tumor_Sample_Barcode)]

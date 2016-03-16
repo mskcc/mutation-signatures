@@ -24,7 +24,7 @@ In order to use this, you need the following columns in your MAF:
 
 ### Confidence Intervals ###
 
-In order to calculate the confidence intervals on mutational signatures, resample a maf file (with replacement) 1000 times thusly:
+1) In order to calculate the confidence intervals on mutational signatures, resample a maf file (with replacement) 1000 times thusly:
 
     ./sigsig.R input.maf 1000 input.resamp.maf
 
@@ -32,23 +32,27 @@ Alternatively you can opt to split the output maf file by Tumor_Sample_Barcode w
 
     ./sigsig.R input.maf 1000 input_resamp_maf/ split
 
-Run decomposition as usual:
+Note that the original maf is included at the top of the resampled file. Resamples get `:1`, `:2`, etc. at the end of the Tumor_Sample Barcode.
+
+2) Run decomposition as usual:
 
     python main.py Stratton_signatures30.txt input.resamp.maf input.resamp.sig.txt
     
-Then calculate the (1 s.d.) confidence intervals and a quasi-pvalue for each signature:
+3) Calculate the (1 s.d.) confidence intervals and a quasi-pvalue for each signature:
 
     ./sigsig_conf_int.R input.resamp.sig.txt input.resamp.sig.conf_int.txt
 
+Decompsed signatures without `:1`, `:2`, etc. at the end will be treated as 'Observed signatures'.
+
 Example output:
 
-Tumor_Sample_Barcode | Signature | lower_val | median_val | upper_val | quasi_pvalue
+Tumor_Sample_Barcode | Signature | observed_val | lower_val | median_val | upper_val | quasi_pvalue
 --- | --- | --- | --- | --- | ---
-TCGA-05-4249-01-SM-1OIMZ | 1 | 0.013611 | 0.08426 | 0.13959 | 0.12098
-TCGA-05-4249-01-SM-1OIMZ | 2 | 1.0154e-11 | 2.7091e-07 | 0.018698 | 0.50322
-TCGA-05-4249-01-SM-1OIMZ | 3 | 1.1311e-11 | 3.3926e-10 | 5.4924e-07 | 0.84942
-TCGA-05-4249-01-SM-1OIMZ | 4 | 0.27567 | 0.37571 | 0.46896 | 0
-TCGA-05-4249-01-SM-1OIMZ | 5 | 9.3352e-12 | 3.7251e-10 | 7.1719e-09 | 0.95238
+TCGA-05-4249-01-SM-1OIMZ | 1 | 0.10231 | 0.013611 | 0.08426 | 0.13959 | 0.12098
+TCGA-05-4249-01-SM-1OIMZ | 2 | 2.9534e-08 | 1.0154e-11 | 2.7091e-07 | 0.018698 | 0.50322
+TCGA-05-4249-01-SM-1OIMZ | 3 | 1.9123e-10 | 1.1311e-11 | 3.3926e-10 | 5.4924e-07 | 0.84942
+TCGA-05-4249-01-SM-1OIMZ | 4 | 0.38532 | 0.27567 | 0.37571 | 0.46896 | 0
+TCGA-05-4249-01-SM-1OIMZ | 5 | 3.4321e-9 | 9.3352e-12 | 3.7251e-10 | 7.1719e-09 | 0.95238
 
 To do: include original maf in the resample and add `measured_val` column
 
