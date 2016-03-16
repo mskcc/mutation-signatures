@@ -208,7 +208,9 @@ def parse_decompose(arg_list):
     targets = arg_list[1]
     sigs = arg_list[2]
     """Accessory function to retain sample name"""
-    return [target_name, decompose(targets[target_name], sigs)]
+    # return [target_name, decompose(targets[target_name], sigs)]
+    res = decompose(targets[target_name])
+    print res
 
 def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
     pool = multiprocessing.Pool(processes=20)
@@ -242,17 +244,17 @@ def decompose_to_file_parallel_2(targets, sigs, sigs_names, out_file, threads):
     result = pool.map_async(parse_decompose, input_data)
     pool.close()
     pool.join()
-    results = result.get()
+    # results = result.get()
 
-    ### Header
-    to_file = open(out_file, 'w')
-    to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names + ['\n'], '\t'))
+    # ### Header
+    # to_file = open(out_file, 'w')
+    # to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names + ['\n'], '\t'))
 
-    ### Loop over results
-    num_targets = len(targets.keys())
-    for i in range(len(results)):
-        if results[i][1] is not None:
-            out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(map(str, results[i][1]), '\t'), '\n']
-            to_file.write(string.join(out, '\t'))
+    # ### Loop over results
+    # num_targets = len(targets.keys())
+    # for i in range(len(results)):
+    #     if results[i][1] is not None:
+    #         out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(map(str, results[i][1]), '\t'), '\n']
+    #         to_file.write(string.join(out, '\t'))
 
-    to_file.close()    
+    # to_file.close()    
