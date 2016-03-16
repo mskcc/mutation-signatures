@@ -66,6 +66,7 @@ if(!interactive()){
   mafl <- generate_bootstrap_maf(maf, n_draws = n_draws)
   if(split_files){
     dir.create(output_maf_filename)
+    mafl[, sample := gsub(":.*$", "", Tumor_Sample_Barcode)]
     mafl[, write.maf(.SD, paste0(output_maf_filename, "/", sample, ".txt")), sample]
   } else {
     write.maf(mafl, output_maf_filename)
