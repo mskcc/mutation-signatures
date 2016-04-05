@@ -24,7 +24,7 @@ maf = pd.read_table(maf,usecols = ['Tumor_Sample_Barcode', 'Reference_Allele', '
 samples = maf['Tumor_Sample_Barcode'].unique().tolist()
 sample_no = len(samples)
 ii = np.arange(sample_no)
-split = np.array_split(ii, 100)
+split = np.array_split(ii, chunks)
 
 for i in range(len(split)):
 	split_samples = [samples[j] for j in split[i].tolist()]
