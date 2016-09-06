@@ -35,8 +35,8 @@ by = list(Tumor_Sample_Barcode, Signature)]
 conf_int_qm <- merge(conf_int_m[is.na(replicate),
                                 list(Tumor_Sample_Barcode,
                                      Signature,
-                                     observed_val = as.numeric(formatC(x, digits = 3)))],
+                                     observed_val = as.numeric(formatC(Fraction, digits = 3)))],
                      conf_int_q,
                      by = c("Tumor_Sample_Barcode", "Signature"),
                      all = T)
-write.maf(conf_int_q, sig_conf_int_filename)
+write.maf(conf_int_qm, sig_conf_int_filename)
