@@ -37,6 +37,8 @@ if __name__ == "__main__":
                         "mutational spectrum tsv (set --spectrum-tsv "
                         "see --help)")
     parser.add_argument("out_file", type=str, help="Output file")
+    parser.add_argument("--seed", type=int, 
+                        default = None, help="Random seed") 
     parser.add_argument("--spectrum", action='store_true',
                         default=False, help="input_file is "
                         "mutational spectrum tsv instead of MAF")
@@ -61,4 +63,5 @@ if __name__ == "__main__":
     signature.decompose_to_file(signatures['signatures'],
                                 stratton['signatures'],
                                 stratton['names'],
-                                args.out_file)
+                                args.out_file,
+                                random_seed = args.seed)

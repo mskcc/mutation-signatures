@@ -142,7 +142,7 @@ def load(path):
     return ret
 
 
-def decompose(target, sigs):
+def decompose(target, sigs, random_seed = None):
     num_muts = np.sum(target)
     if num_muts < 5:
         print "Warning: sample has less than 5 mutations; cancelling decomposition"
@@ -151,6 +151,7 @@ def decompose(target, sigs):
     num_sigs = sigs.shape[1]
     target = np.array(target)/float(np.sum(target))
 
+    if not random_seed == None: np.random.seed(seed = random_seed)
     seed = np.random.multinomial(num_muts, np.ones((num_sigs,))/float(num_sigs), 1)[0].astype(float)
     seed = seed/np.linalg.norm(seed)
 
@@ -176,7 +177,7 @@ def decompose(target, sigs):
     result = result/np.sum(result)
     return result
 
-def decompose_to_file(targets, sigs, sigs_names, to_file):
+def decompose_to_file(targets, sigs, sigs_names, to_file, random_seed = None):
     to_file = open(to_file, 'w')
     to_file.write(string.join(["Sample Name", "Number of Mutations"] + sigs_names, '\t'))
     to_file.write('\n')
@@ -187,7 +188,7 @@ def decompose_to_file(targets, sigs, sigs_names, to_file):
             print "%d/%d decomposed"%(num_targets_decomposed, num_targets) 
         decomposition = None
         try:
-            decomposition = decompose(targets[target_name], sigs)
+            decomposition = decompose(targets[target_name], sigs, random_seed = random_seed)
         except:
             print("DECOMPOSITION EXCEPTION FOR "+target_name)
         num_targets_decomposed += 1

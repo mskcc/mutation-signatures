@@ -22,6 +22,8 @@ python main.py Stratton_signatures.txt <maf-file-path> <decomposed-output-file-p
 In order to use this, you need the following columns in your MAF:  
 ```"Tumor_Sample_Barcode", "Reference_Allele", "Variant_Type", "Tumor_Seq_Allele2", "Ref_Tri"```
 
+You may use, for example, `python main.py --seed 100` for a reproducible result.
+
 ### Confidence Intervals ###
 
 1) Resample each Tumor_Sample_Barcode in a maf file (with replacement) 1000 times, thusly:
