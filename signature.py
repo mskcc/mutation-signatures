@@ -90,14 +90,14 @@ def make(maf_path, out_path=None, substitution_order=None):
 
     if out_path != None:
         out_f = open(out_path, 'w')
-        out_f.write(string.join(substitution_order,'\t'))
+        out_f.write(string.join(["Tumor_SampleBarcode"] + substitution_order,'\t'))
         out_f.write('\n')
         for samp_id in signatures:
-            f.write(samp_id)
-            f.write('\t')
-            f.write(string.join(map(str, signatures[samp_id]), '\t'))
-            f.write('\n')
-        f.close()
+            out_f.write(samp_id)
+            out_f.write('\t')
+            out_f.write(string.join(map(str, signatures[samp_id]), '\t'))
+            out_f.write('\n')
+        out_f.close()
 
     return {'substitution_order':substitution_order, 'signatures':signatures}
 

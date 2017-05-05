@@ -42,6 +42,9 @@ if __name__ == "__main__":
     parser.add_argument("--spectrum", action='store_true',
                         default=False, help="input_file is "
                         "mutational spectrum tsv instead of MAF")
+    parser.add_argument("--spectrum_output", type=str, 
+                        default=None, help="write out a "
+                        "mutational spectrum tsv")
     args = parser.parse_args()
 
     print "Loading known signatures from %s" % args.stratton_file
@@ -53,7 +56,7 @@ if __name__ == "__main__":
         signatures['signatures'] = parse_mutational_spectum_tsv(args.in_file)
     else:
         print "Making sample signatures from maf %s" % args.in_file
-        signatures = signature.make(args.in_file, substitution_order=stratton['substitution_order'])
+        signatures = signature.make(args.in_file, substitution_order=stratton['substitution_order'], out_path = args.spectrum_output)
 
         if signatures is None:
             print "Error during signature creation; quitting"
