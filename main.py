@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Decompose signatures using either:
 
@@ -7,10 +9,11 @@ Decompose signatures using either:
     value represents the number of times a certain base transition occurs in a
     sample.
 """
-import signature
-import sys
+
 import argparse
 from collections import OrderedDict
+import signature
+import sys
 
 
 def parse_mutational_spectum_tsv(mutational_spectrum_file):
@@ -47,22 +50,22 @@ if __name__ == "__main__":
                         "mutational spectrum tsv")
     args = parser.parse_args()
 
-    print "Loading known signatures from %s" % args.stratton_file
+    print("Loading known signatures from %s" % args.stratton_file)
     stratton = signature.load_stratton_signatures(args.stratton_file)
 
     if args.spectrum:
         signatures = {}
-        print "Parsing mutational spectrum tsv"
+        print("Parsing mutational spectrum tsv")
         signatures['signatures'] = parse_mutational_spectum_tsv(args.in_file)
     else:
-        print "Making sample signatures from maf %s" % args.in_file
+        print("Making sample signatures from maf %s" % args.in_file)
         signatures = signature.make(args.in_file, substitution_order=stratton['substitution_order'], out_path = args.spectrum_output)
 
         if signatures is None:
-            print "Error during signature creation; quitting"
+            print("Error during signature creation; quitting")
             sys.exit(0)
 
-    print "Decomposing signatures and writing to %s" % args.out_file
+    print("Decomposing signatures and writing to %s" % args.out_file)
     signature.decompose_to_file(signatures['signatures'],
                                 stratton['signatures'],
                                 stratton['names'],

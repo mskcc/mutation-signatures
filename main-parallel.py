@@ -1,10 +1,12 @@
-#!/opt/common/CentOS_6-dev/bin/current/python
+#!/usr/bin/env python
+
 descr = "Parallelized signature decomposition"
+
 import argparse
-import signature
-import sys
 import os
+import signature
 import string
+import sys
 
 parser = argparse.ArgumentParser(description = descr, formatter_class = argparse.RawTextHelpFormatter)
 parser.add_argument('-m', '--maffile', help = 'Input MAF', required = True)
@@ -23,16 +25,17 @@ if outfile is None:
 if threads is None:
 	threads = 1
 
-print "Loading known signatures from %s"%stratton_file
+print("Loading known signatures from %s" % stratton_file)
 stratton = signature.load_stratton_signatures(stratton_file)
 
-print "Making sample signatures from maf %s"%maf
+print("Making sample signatures from maf %s" % maf)
 signatures = signature.make(maf, substitution_order=stratton['substitution_order'])
 if signatures == None:
-    print "Error during signature creation; quitting"
+    print("Error during signature creation; quitting")
     sys.exit(0)
 
-print "Decomposing signatures and writing to %s"%outfile
+print("Decomposing signatures and writing to %s" % outfile)
+
 signature.decompose_to_file_parallel(signatures['signatures'],
                             					stratton['signatures'],
                             					stratton['names'],
