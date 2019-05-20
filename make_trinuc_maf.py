@@ -1,13 +1,18 @@
+#!/usr/bin/env python2.7
+
+### NOTE: Not python3 compatible
+
 import subprocess
 import sys
 from string import strip, join
 
-if len(sys.argv) < 3:
-	print "Usage: python make_trinuc_maf.py [source maf path] [target maf path]"
+if len(sys.argv) < 4:
+	print "Usage: python make_trinuc_maf.py [reference FASTA] [source maf path] [target maf path]"
 	sys.exit(0)
 
-from_maf = sys.argv[1]
-to_maf = sys.argv[2]
+reference_fasta = sys.arg[1]
+from_maf = sys.argv[2]
+to_maf = sys.argv[3]
 
 fromf = open(from_maf, 'r')
 tof = open(to_maf, 'w')
@@ -46,7 +51,7 @@ bedf.close()
 
 # Fetch regions
 print "Getting regions"
-subprocess.call("bedtools getfasta -tab -fi /ifs/depot/assemblies/H.sapiens/GRCh37/gr37.fasta -bed ___tmp.bed -fo ___tmp.tsv".split(" "))
+subprocess.call("bedtools getfasta -tab -fi {} -bed ___tmp.bed -fo ___tmp.tsv".format(reference_fasta).split(" "))
 
 # Add trinuc to lines
 print "Adding trinucs (normalized to start from C or T)"
@@ -87,3 +92,4 @@ print "Cleaning up"
 subprocess.call("rm -f ___tmp.maf".split(" "))
 subprocess.call("rm -f ___tmp.bed".split(" "))
 subprocess.call("rm -f ___tmp.tsv".split(" "))
+
