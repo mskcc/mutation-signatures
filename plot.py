@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import matplotlib.pyplot as plt
 
 def plot_signature(array, ylim=0.2, ax=None):

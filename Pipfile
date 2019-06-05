@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+pre-commit = "*"
+
+[packages]
+numpy = ">=1.11"
+matplotlib = ">=1.5.1"
+scipy = ">=0.9"
+
+[requires]
+python_version = "2.7"

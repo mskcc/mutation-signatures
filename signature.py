@@ -1,10 +1,10 @@
-import numpy as np
-import string
-from scipy.optimize import basinhopping
-import pdb
-import sys
-import multiprocessing
+#!/usr/bin/env python
 
+import multiprocessing
+import numpy as np
+from scipy.optimize import basinhopping
+import string
+import sys
 
 def make(maf_path, out_path=None, substitution_order=None):
     id_col = "Tumor_Sample_Barcode"
@@ -22,7 +22,7 @@ def make(maf_path, out_path=None, substitution_order=None):
         column_index[x] = i
     for column_label in required_columns:
         if not column_label in column_labels:
-            print "Fatal: Required column '%s' missing"%column_label
+            print("Fatal: Required column '%s' missing"%column_label)
             return None
 
     id_index = column_index[id_col]
@@ -50,8 +50,7 @@ def make(maf_path, out_path=None, substitution_order=None):
         line_number += 1
         sline = map(string.strip, line.split('\t'))
         if len(sline) != len(column_labels):
-            print "Warning: Line length doesnt match number of columns." +\
-                    "skipping line %d"%line_number
+            print("Warning: Line length doesnt match number of columns." + "skipping line %d" %line_number)
             continue
         variant_type = sline[variant_type_index]
         if not variant_type.startswith("SNP"):
@@ -67,26 +66,22 @@ def make(maf_path, out_path=None, substitution_order=None):
             snp = nucleotide_complement[ref_allele] + nucleotide_complement[tum_allele]
         ref_trinuc = sline[ref_tri_index]
         if ref_trinuc == "NA":
-            print "Warning: Reference allele not available on "+\
-                    "line %d; skipping line"%line_number
+            print("Warning: Reference allele not available on "+ "line %d; skipping line" % line_number)
             continue
         if not ref_trinuc[1] == snp[0]:
-            print "Warning: Reference allele does not match reference "+\
-                    "trinucleotide; skipping line %d"%line_number
+            print("Warning: Reference allele does not match reference " + "trinucleotide; skipping line %d" % line_number)
             continue
         snp_with_ctx = ref_trinuc[0] + snp + ref_trinuc[2]
         if not samp_id in signatures:
             signatures[samp_id] = [0 for i in substitution_order]
         if snp_with_ctx not in substitution_order:
-            print "Warning: substitution on line " + \
-                    "%d is %s, not "%(line_number,snp_with_ctx) + \
-                    "found among possible substitutions. Skipping line."
+            print("Warning: substitution on line " + "%d is %s, not " %(line_number,snp_with_ctx) + "found among possible substitutions. Skipping line.")
             continue
         signatures[samp_id][substitution_order.index(snp_with_ctx)] += 1
         num_snps_counted += 1
         num_snps_skipped -= 1
     maf_f.close()
-    print "%d lines read; %d SNPS counted, %d SNPs skipped, %d non-SNPs skipped"%(line_number, num_snps_counted, num_snps_skipped, num_nonsnps)
+    print("%d lines read; %d SNPS counted, %d SNPs skipped, %d non-SNPs skipped" %(line_number, num_snps_counted, num_snps_skipped, num_nonsnps))
 
     if out_path != None:
         out_f = open(out_path, 'w')
@@ -95,7 +90,7 @@ def make(maf_path, out_path=None, substitution_order=None):
         for samp_id in signatures:
             out_f.write(samp_id)
             out_f.write('\t')
-            out_f.write(string.join(map(str, signatures[samp_id]), '\t'))
+            out_f.write(string.join(list(map(str, signatures[samp_id])), '\t'))
             out_f.write('\n')
         out_f.close()
 
@@ -121,13 +116,13 @@ def sym_div(a,b):
 
 def load_stratton_signatures(path):
     f = open(path, 'r')
-    substitution_order = map(string.strip, f.readline().split("\t"))
+    substitution_order = list(map(string.strip, f.readline().split("\t")))
     sigs = []
     names = []
     for line in f:
         sline = line.split('\t')
         names.append(sline[0])
-        sigs.append(map(float, sline[1:]))
+        sigs.append(list(map(float, sline[1:])))
     return {'signatures': np.array(sigs).T, \
             'names':names, \
             'substitution_order': substitution_order}
@@ -145,7 +140,7 @@ def load(path):
 def decompose(target, sigs, random_seed = None):
     num_muts = np.sum(target)
     if num_muts < 5:
-        print "Warning: sample has less than 5 mutations; cancelling decomposition"
+        print("Warning: sample has less than 5 mutations; cancelling decomposition")
         return None
 
     num_sigs = sigs.shape[1]
@@ -185,15 +180,15 @@ def decompose_to_file(targets, sigs, sigs_names, to_file, random_seed = None):
     num_targets_decomposed = 0
     for target_name in targets:
         if num_targets_decomposed%50 == 0:
-            print "%d/%d decomposed"%(num_targets_decomposed, num_targets) 
+            print("%d/%d decomposed"%(num_targets_decomposed, num_targets))
         decomposition = None
         try:
             decomposition = decompose(targets[target_name], sigs, random_seed = random_seed)
         except:
-            print("DECOMPOSITION EXCEPTION FOR "+target_name)
+            print("DECOMPOSITION EXCEPTION FOR " + target_name)
         num_targets_decomposed += 1
         if decomposition is None:
-            print "Sample %s not decomposed"%target_name
+            print("Sample %s not decomposed" % target_name)
             continue
 
         to_file.write(target_name)
@@ -233,7 +228,7 @@ def decompose_to_file_parallel(targets, sigs, sigs_names, out_file, threads):
     num_targets = len(targets.keys())
     for i in range(len(results)):
         if results[i][1] is not None:
-            out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(map(str, results[i][1]), '\t'), '\n']
+            out = [results[i][0], str(np.sum(targets[results[i][0]])), string.join(list(map(str, results[i][1])), '\t'), '\n']
             to_file.write(string.join(out, '\t'))
     
     to_file.close()

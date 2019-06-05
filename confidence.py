@@ -1,4 +1,6 @@
-import signature
+#!/usr/bin/env python
+
+## import signature
 import numpy as np
 import sys
 
